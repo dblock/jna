@@ -1,5 +1,7 @@
-This is /home/green/libffi/doc/libffi.info, produced by makeinfo
-version 4.13 from /home/green/libffi/doc/libffi.texi.
+This is
+/cygdrive/c/users/dblock/Source/GitHub/jna/dblock/native/libffi/doc/libffi.info,
+produced by makeinfo version 4.13 from
+/cygdrive/c/users/dblock/Source/GitHub/jna/dblock/native/libffi/doc/libffi.texi.
 
 This manual is for Libffi, a portable foreign-function interface
 library.
@@ -569,25 +571,25 @@ Index
 * ffi_type_ushort:                       Primitive Types.      (line 53)
 * ffi_type_void:                         Primitive Types.      (line 10)
 * Foreign Function Interface:            Introduction.         (line 31)
-* void <1>:                              The Closure API.      (line 20)
-* void:                                  The Basics.           (line 43)
+* void <1>:                              The Basics.           (line 43)
+* void:                                  The Closure API.      (line 27)
 
 
 
 Tag Table:
-Node: Top724
-Node: Introduction1466
-Node: Using libffi3102
-Node: The Basics3588
-Node: Simple Example6374
-Node: Types7401
-Node: Primitive Types7684
-Node: Structures9504
-Node: Type Example10364
-Node: Multiple ABIs11587
-Node: The Closure API11958
-Node: Closure Example14902
-Node: Missing Features16461
-Node: Index16954
+Node: Top814
+Node: Introduction1556
+Node: Using libffi3192
+Node: The Basics3678
+Node: Simple Example6464
+Node: Types7491
+Node: Primitive Types7774
+Node: Structures9594
+Node: Type Example10454
+Node: Multiple ABIs11677
+Node: The Closure API12048
+Node: Closure Example14992
+Node: Missing Features16551
+Node: Index17044
 
 End Tag Table
