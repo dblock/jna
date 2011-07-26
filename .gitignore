@@ -5,4 +5,8 @@ build.number
 bin
 jnalib/contrib/ntservice/dist
 jnalib/contrib/platform/dist
+contrib/ntservice/dist
+contrib/platform/dist
+
+
 
