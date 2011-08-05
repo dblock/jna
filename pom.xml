@@ -7,9 +7,9 @@
   <artifactId>jna</artifactId>
   <packaging>jar</packaging>
   <version>3.3.0</version>
-  <name>Java Native Access</name>
-    
-   <distributionManagement>
+  <name>Java Native Access</name> 
+     
+  <distributionManagement>
     <repository>
       <uniqueVersion>false</uniqueVersion>
       <id>java.net-m2-repository</id>
@@ -17,10 +17,23 @@
     </repository>
     <site>
       <id>github</id>
-      <url>gitsite:git@github.com/dblock/jna.git</url>
+      <url>gitsite:git@github.com/dblock/jna.git/${project.version}</url>
     </site>
   </distributionManagement>
 
+  <reporting>
+    <outputDirectory>${basedir}/target/site</outputDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.0.1</version>
+        <reportSets>
+          <reportSet />
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+      
   <build>
     <plugins>
       <!-- fake out maven and install the binary artifact -->
@@ -39,6 +52,24 @@
                 <attachArtifact file="dist/jna.jar" />
                 <attachArtifact file="dist/platform.jar" classifier="platform" type="jar" />
                 <attachArtifact file="dist/src-mvn.zip" classifier="sources" type="jar"/>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>site</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <copy todir="target/site/javadoc">
+                  <fileset dir="www/javadoc" includes="**/*" />
+                </copy>
               </tasks>
             </configuration>
           </execution>
