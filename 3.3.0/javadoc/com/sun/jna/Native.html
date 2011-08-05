@@ -46,14 +46,14 @@ function windowTitle()
 </TABLE>
 </TD>
 <TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
-<b>JNA API</><font size=-1> 3.2.7</font></EM>
+<b>JNA API</><font size="-1"> 3.3.0</font></EM>
 </TD>
 </TR>
 
 <TR>
 <TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="../../../com/sun/jna/MethodResultContext.html" title="class in com.sun.jna"><B>PREV CLASS</B></A>&nbsp;
-&nbsp;<A HREF="../../../com/sun/jna/Native.DeleteNativeLibrary.html" title="class in com.sun.jna"><B>NEXT CLASS</B></A></FONT></TD>
+&nbsp;<A HREF="../../../com/sun/jna/Native.ffi_callback.html" title="interface in com.sun.jna"><B>NEXT CLASS</B></A></FONT></TD>
 <TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
   <A HREF="../../../index.html?com/sun/jna/Native.html" target="_top"><B>FRAMES</B></A>  &nbsp;
 &nbsp;<A HREF="Native.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
@@ -117,14 +117,19 @@ Provides generation of invocation plumbing for a defined native
  regarding execution or load of files (SELinux, for example), you should 
  probably install the native library in an accessible location and configure 
  your system accordingly, rather than relying on JNA to extract the library 
- from its own jar file.
+ from its own jar file.<p/>
+ NOTE: all native functions are provided within this class to ensure that
+ all other JNA-provided classes and objects are GC'd and/or
+ finalized/disposed before this class is disposed and/or removed from
+ memory (most notably Memory and any other class which by default frees its
+ resources in a finalizer).<p/>
 <P>
 
 <P>
 <DL>
 <DT><B>Author:</B></DT>
   <DD>Todd Fast, todd.fast@sun.com, twall@users.sf.net</DD>
-<DT><B>See Also:</B><DD><A HREF="../../../com/sun/jna/Native.DeleteNativeLibrary.html" title="class in com.sun.jna"><CODE>Native.DeleteNativeLibrary</CODE></A></DL>
+<DT><B>See Also:</B><DD><A HREF="../../../com/sun/jna/Library.html" title="interface in com.sun.jna"><CODE>Library</CODE></A></DL>
 <HR>
 
 <P>
@@ -135,14 +140,6 @@ Provides generation of invocation plumbing for a defined native
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
 <TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
 <B>Nested Class Summary</B></FONT></TH>
-</TR>
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>static&nbsp;class</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../com/sun/jna/Native.DeleteNativeLibrary.html" title="class in com.sun.jna">Native.DeleteNativeLibrary</A></B></CODE>
-
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For internal use only.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -206,6 +203,27 @@ Provides generation of invocation plumbing for a defined native
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#close(long)">close</A></B>(long&nbsp;handle)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#createNativeCallback(com.sun.jna.Callback, java.lang.reflect.Method, java.lang.Class[], java.lang.Class, int, boolean)">createNativeCallback</A></B>(<A HREF="../../../com/sun/jna/Callback.html" title="interface in com.sun.jna">Callback</A>&nbsp;callback,
+                     <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect">Method</A>&nbsp;method,
+                     <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>[]&nbsp;parameterTypes,
+                     <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&nbsp;returnType,
+                     int&nbsp;callingConvention,
+                     boolean&nbsp;direct)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create a native trampoline to delegate execution to the Java callback.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;void</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#ffi_call(long, long, long, long)">ffi_call</A></B>(long&nbsp;cif,
          long&nbsp;fptr,
@@ -253,6 +271,39 @@ Provides generation of invocation plumbing for a defined native
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#findSymbol(long, java.lang.String)">findSymbol</A></B>(long&nbsp;handle,
+           <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#free(long)">free</A></B>(long&nbsp;ptr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call the real native free</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#freeNativeCallback(long)">freeNativeCallback</A></B>(long&nbsp;ptr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Free the given callback trampoline.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;byte</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getByte(long)">getByte</A></B>(long&nbsp;addr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>(package private) static&nbsp;byte[]</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getBytes(java.lang.String)">getBytes</A></B>(<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;s)</CODE>
 
@@ -287,6 +338,14 @@ Provides generation of invocation plumbing for a defined native
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;char</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getChar(long)">getChar</A></B>(long&nbsp;addr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;long</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getComponentID(java.awt.Component)">getComponentID</A></B>(<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/awt/Component.html?is-external=true" title="class or interface in java.awt">Component</A>&nbsp;c)</CODE>
 
@@ -313,6 +372,39 @@ Provides generation of invocation plumbing for a defined native
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getDirectByteBuffer(long, long)">getDirectByteBuffer</A></B>(long&nbsp;addr,
+                    long&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get a direct ByteBuffer mapped to the memory pointed to by the pointer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getDouble(long)">getDouble</A></B>(long&nbsp;addr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;float</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getFloat(long)">getFloat</A></B>(long&nbsp;addr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getInt(long)">getInt</A></B>(long&nbsp;addr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;int</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getLastError()">getLastError</A></B>()</CODE>
 
@@ -327,6 +419,14 @@ Provides generation of invocation plumbing for a defined native
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return the preferred native library configuration options for the given 
  class.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getLong(long)">getLong</A></B>(long&nbsp;addr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -365,6 +465,14 @@ Provides generation of invocation plumbing for a defined native
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;<A HREF="../../../com/sun/jna/Pointer.html" title="class in com.sun.jna">Pointer</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getPointer(long)">getPointer</A></B>(long&nbsp;addr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;boolean</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getPreserveLastError()">getPreserveLastError</A></B>()</CODE>
 
@@ -375,11 +483,36 @@ Provides generation of invocation plumbing for a defined native
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getShort(long)">getShort</A></B>(long&nbsp;addr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getString(long, boolean)">getString</A></B>(long&nbsp;addr,
+          boolean&nbsp;wide)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;int</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getStructureAlignment(java.lang.Class)">getStructureAlignment</A></B>(<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&nbsp;cls)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return the preferred structure alignment for the given native interface.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#getTempDir()">getTempDir</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -418,11 +551,103 @@ Provides generation of invocation plumbing for a defined native
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#indexOf(long, byte)">indexOf</A></B>(long&nbsp;addr,
+        byte&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>(package private) static&nbsp;int</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#initialize_ffi_type(long)">initialize_ffi_type</A></B>(long&nbsp;type_info)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the size (calculated by libffi) of the given type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#invokeDouble(long, int, java.lang.Object[])">invokeDouble</A></B>(long&nbsp;fp,
+             int&nbsp;callFlags,
+             <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call the native function being represented by this object</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;float</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#invokeFloat(long, int, java.lang.Object[])">invokeFloat</A></B>(long&nbsp;fp,
+            int&nbsp;callFlags,
+            <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call the native function being represented by this object</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#invokeInt(long, int, java.lang.Object[])">invokeInt</A></B>(long&nbsp;fp,
+          int&nbsp;callFlags,
+          <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call the native function being represented by this object</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#invokeLong(long, int, java.lang.Object[])">invokeLong</A></B>(long&nbsp;fp,
+           int&nbsp;callFlags,
+           <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call the native function being represented by this object</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#invokeObject(long, int, java.lang.Object[])">invokeObject</A></B>(long&nbsp;fp,
+             int&nbsp;callFlags,
+             <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call the native function being represented by this object, returning
+ a Java <code>Object</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#invokePointer(long, int, java.lang.Object[])">invokePointer</A></B>(long&nbsp;fp,
+              int&nbsp;callFlags,
+              <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call the native function being represented by this object</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;<A HREF="../../../com/sun/jna/Structure.html" title="class in com.sun.jna">Structure</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#invokeStructure(long, int, java.lang.Object[], com.sun.jna.Structure)">invokeStructure</A></B>(long&nbsp;fp,
+                int&nbsp;callFlags,
+                <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args,
+                <A HREF="../../../com/sun/jna/Structure.html" title="class in com.sun.jna">Structure</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call the native function being represented by this object, returning
+ a struct by value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#invokeVoid(long, int, java.lang.Object[])">invokeVoid</A></B>(long&nbsp;fp,
+           int&nbsp;callFlags,
+           <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call the native function being represented by this object</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -491,6 +716,107 @@ Provides generation of invocation plumbing for a defined native
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#malloc(long)">malloc</A></B>(long&nbsp;size)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call the real native malloc</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#markTemporaryFile(java.io.File)">markTemporaryFile</A></B>(<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</A>&nbsp;file)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perform cleanup of automatically unpacked native shared library.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#open(java.lang.String)">open</A></B>(<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#read(long, byte[], int, int)">read</A></B>(long&nbsp;addr,
+     byte[]&nbsp;buf,
+     int&nbsp;index,
+     int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#read(long, char[], int, int)">read</A></B>(long&nbsp;addr,
+     char[]&nbsp;buf,
+     int&nbsp;index,
+     int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#read(long, double[], int, int)">read</A></B>(long&nbsp;addr,
+     double[]&nbsp;buf,
+     int&nbsp;index,
+     int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#read(long, float[], int, int)">read</A></B>(long&nbsp;addr,
+     float[]&nbsp;buf,
+     int&nbsp;index,
+     int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#read(long, int[], int, int)">read</A></B>(long&nbsp;addr,
+     int[]&nbsp;buf,
+     int&nbsp;index,
+     int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#read(long, long[], int, int)">read</A></B>(long&nbsp;addr,
+     long[]&nbsp;buf,
+     int&nbsp;index,
+     int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#read(long, short[], int, int)">read</A></B>(long&nbsp;addr,
+     short[]&nbsp;buf,
+     int&nbsp;index,
+     int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;void</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#register(java.lang.Class, com.sun.jna.NativeLibrary)">register</A></B>(<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&nbsp;cls,
          <A HREF="../../../com/sun/jna/NativeLibrary.html" title="class in com.sun.jna">NativeLibrary</A>&nbsp;lib)</CODE>
@@ -522,10 +848,27 @@ Provides generation of invocation plumbing for a defined native
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#removeTemporaryFiles()">removeTemporaryFiles</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remove all marked temporary files in the given directory.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>(package private) static&nbsp;<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#replace(java.lang.String, java.lang.String, java.lang.String)">replace</A></B>(<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;s1,
         <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;s2,
         <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;str)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#setByte(long, byte)">setByte</A></B>(long&nbsp;addr,
+        byte&nbsp;value)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
@@ -541,11 +884,75 @@ Provides generation of invocation plumbing for a defined native
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#setChar(long, char)">setChar</A></B>(long&nbsp;addr,
+        char&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#setDouble(long, double)">setDouble</A></B>(long&nbsp;addr,
+          double&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#setFloat(long, float)">setFloat</A></B>(long&nbsp;addr,
+         float&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#setInt(long, int)">setInt</A></B>(long&nbsp;addr,
+       int&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;void</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#setLastError(int)">setLastError</A></B>(int&nbsp;code)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the OS last error code.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#setLong(long, long)">setLong</A></B>(long&nbsp;addr,
+        long&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#setMemory(long, long, byte)">setMemory</A></B>(long&nbsp;addr,
+          long&nbsp;length,
+          byte&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#setPointer(long, long)">setPointer</A></B>(long&nbsp;addr,
+           long&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -565,6 +972,25 @@ Provides generation of invocation plumbing for a defined native
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set whether native memory accesses are protected from invalid
  accesses.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#setShort(long, short)">setShort</A></B>(long&nbsp;addr,
+         short&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#setString(long, java.lang.String, boolean)">setString</A></B>(long&nbsp;addr,
+          <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;value,
+          boolean&nbsp;wide)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -653,6 +1079,83 @@ Provides generation of invocation plumbing for a defined native
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Update the last error value (called from native code).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#write(long, byte[], int, int)">write</A></B>(long&nbsp;addr,
+      byte[]&nbsp;buf,
+      int&nbsp;index,
+      int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#write(long, char[], int, int)">write</A></B>(long&nbsp;addr,
+      char[]&nbsp;buf,
+      int&nbsp;index,
+      int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#write(long, double[], int, int)">write</A></B>(long&nbsp;addr,
+      double[]&nbsp;buf,
+      int&nbsp;index,
+      int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#write(long, float[], int, int)">write</A></B>(long&nbsp;addr,
+      float[]&nbsp;buf,
+      int&nbsp;index,
+      int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#write(long, int[], int, int)">write</A></B>(long&nbsp;addr,
+      int[]&nbsp;buf,
+      int&nbsp;index,
+      int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#write(long, long[], int, int)">write</A></B>(long&nbsp;addr,
+      long[]&nbsp;buf,
+      int&nbsp;index,
+      int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>(package private) static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../com/sun/jna/Native.html#write(long, short[], int, int)">write</A></B>(long&nbsp;addr,
+      short[]&nbsp;buf,
+      int&nbsp;index,
+      int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
@@ -1025,7 +1528,7 @@ static <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Class.html?is-
 <DL>
 <DD>Find the library interface corresponding to the given class.  Checks
  all ancestor classes and interfaces for a declaring class which
- implements <A HREF="../../../com/sun/jna/Native.DeleteNativeLibrary.html" title="class in com.sun.jna"><CODE>Native.DeleteNativeLibrary</CODE></A>.
+ implements <A HREF="../../../com/sun/jna/Library.html" title="interface in com.sun.jna"><CODE>Library</CODE></A>.
 <P>
 <DD><DL>
 </DL>
@@ -1042,7 +1545,7 @@ public static <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/util/Map.htm
  class.
 <P>
 <DD><DL>
-<DT><B>See Also:</B><DD><A HREF="../../../com/sun/jna/Native.DeleteNativeLibrary.html" title="class in com.sun.jna"><CODE>Native.DeleteNativeLibrary</CODE></A></DL>
+<DT><B>See Also:</B><DD><A HREF="../../../com/sun/jna/Library.html" title="interface in com.sun.jna"><CODE>Library</CODE></A></DL>
 </DD>
 </DL>
 <HR>
@@ -1223,7 +1726,7 @@ public static <A HREF="../../../com/sun/jna/Library.html" title="interface in co
 <DL>
 <DD>Returns a synchronized (thread-safe) library backed by the specified
  library.  This wrapping will prevent simultaneous invocations of any
- functions mapped to a given <A HREF="../../../com/sun/jna/Native.DeleteNativeLibrary.html" title="class in com.sun.jna"><CODE>Native.DeleteNativeLibrary</CODE></A>.  Note that the 
+ functions mapped to a given <A HREF="../../../com/sun/jna/NativeLibrary.html" title="class in com.sun.jna"><CODE>NativeLibrary</CODE></A>.  Note that the 
  native library may still be sensitive to being called from different
  threads.
  <p>
@@ -1258,6 +1761,43 @@ public static <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.
 <DD><CODE><A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/UnsatisfiedLinkError.html?is-external=true" title="class or interface in java.lang">UnsatisfiedLinkError</A></CODE> - if the library can't be found by the
  Web Start class loader, which usually means it wasn't included as 
  a <code>&lt;nativelib&gt;</code> resource in the JNLP file.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="markTemporaryFile(java.io.File)"><!-- --></A><H3>
+markTemporaryFile</H3>
+<PRE>
+static void <B>markTemporaryFile</B>(<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</A>&nbsp;file)</PRE>
+<DL>
+<DD>Perform cleanup of automatically unpacked native shared library.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTempDir()"><!-- --></A><H3>
+getTempDir</H3>
+<PRE>
+static <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</A> <B>getTempDir</B>()</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeTemporaryFiles()"><!-- --></A><H3>
+removeTemporaryFiles</H3>
+<PRE>
+static void <B>removeTemporaryFiles</B>()</PRE>
+<DL>
+<DD>Remove all marked temporary files in the given directory.
+<P>
+<DD><DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -1520,6 +2060,676 @@ public static void <B>main</B>(<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/
 </DL>
 </DD>
 </DL>
+<HR>
+
+<A NAME="freeNativeCallback(long)"><!-- --></A><H3>
+freeNativeCallback</H3>
+<PRE>
+static void <B>freeNativeCallback</B>(long&nbsp;ptr)</PRE>
+<DL>
+<DD>Free the given callback trampoline.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createNativeCallback(com.sun.jna.Callback, java.lang.reflect.Method, java.lang.Class[], java.lang.Class, int, boolean)"><!-- --></A><H3>
+createNativeCallback</H3>
+<PRE>
+static long <B>createNativeCallback</B>(<A HREF="../../../com/sun/jna/Callback.html" title="interface in com.sun.jna">Callback</A>&nbsp;callback,
+                                 <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect">Method</A>&nbsp;method,
+                                 <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>[]&nbsp;parameterTypes,
+                                 <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&nbsp;returnType,
+                                 int&nbsp;callingConvention,
+                                 boolean&nbsp;direct)</PRE>
+<DL>
+<DD>Create a native trampoline to delegate execution to the Java callback.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invokeInt(long, int, java.lang.Object[])"><!-- --></A><H3>
+invokeInt</H3>
+<PRE>
+static int <B>invokeInt</B>(long&nbsp;fp,
+                     int&nbsp;callFlags,
+                     <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</PRE>
+<DL>
+<DD>Call the native function being represented by this object
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>fp</CODE> - function pointer<DD><CODE>callFlags</CODE> - calling convention to be used<DD><CODE>args</CODE> - Arguments to pass to the native function
+<DT><B>Returns:</B><DD>The value returned by the target native function</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invokeLong(long, int, java.lang.Object[])"><!-- --></A><H3>
+invokeLong</H3>
+<PRE>
+static long <B>invokeLong</B>(long&nbsp;fp,
+                       int&nbsp;callFlags,
+                       <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</PRE>
+<DL>
+<DD>Call the native function being represented by this object
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>fp</CODE> - function pointer<DD><CODE>callFlags</CODE> - calling convention to be used<DD><CODE>args</CODE> - Arguments to pass to the native function
+<DT><B>Returns:</B><DD>The value returned by the target native function</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invokeVoid(long, int, java.lang.Object[])"><!-- --></A><H3>
+invokeVoid</H3>
+<PRE>
+static void <B>invokeVoid</B>(long&nbsp;fp,
+                       int&nbsp;callFlags,
+                       <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</PRE>
+<DL>
+<DD>Call the native function being represented by this object
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>fp</CODE> - function pointer<DD><CODE>callFlags</CODE> - calling convention to be used<DD><CODE>args</CODE> - Arguments to pass to the native function</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invokeFloat(long, int, java.lang.Object[])"><!-- --></A><H3>
+invokeFloat</H3>
+<PRE>
+static float <B>invokeFloat</B>(long&nbsp;fp,
+                         int&nbsp;callFlags,
+                         <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</PRE>
+<DL>
+<DD>Call the native function being represented by this object
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>fp</CODE> - function pointer<DD><CODE>callFlags</CODE> - calling convention to be used<DD><CODE>args</CODE> - Arguments to pass to the native function
+<DT><B>Returns:</B><DD>The value returned by the target native function</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invokeDouble(long, int, java.lang.Object[])"><!-- --></A><H3>
+invokeDouble</H3>
+<PRE>
+static double <B>invokeDouble</B>(long&nbsp;fp,
+                           int&nbsp;callFlags,
+                           <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</PRE>
+<DL>
+<DD>Call the native function being represented by this object
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>fp</CODE> - function pointer<DD><CODE>callFlags</CODE> - calling convention to be used<DD><CODE>args</CODE> - Arguments to pass to the native function
+<DT><B>Returns:</B><DD>The value returned by the target native function</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invokePointer(long, int, java.lang.Object[])"><!-- --></A><H3>
+invokePointer</H3>
+<PRE>
+static long <B>invokePointer</B>(long&nbsp;fp,
+                          int&nbsp;callFlags,
+                          <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</PRE>
+<DL>
+<DD>Call the native function being represented by this object
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>fp</CODE> - function pointer<DD><CODE>callFlags</CODE> - calling convention to be used<DD><CODE>args</CODE> - Arguments to pass to the native function
+<DT><B>Returns:</B><DD>The native pointer returned by the target native function</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invokeStructure(long, int, java.lang.Object[], com.sun.jna.Structure)"><!-- --></A><H3>
+invokeStructure</H3>
+<PRE>
+static <A HREF="../../../com/sun/jna/Structure.html" title="class in com.sun.jna">Structure</A> <B>invokeStructure</B>(long&nbsp;fp,
+                                 int&nbsp;callFlags,
+                                 <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args,
+                                 <A HREF="../../../com/sun/jna/Structure.html" title="class in com.sun.jna">Structure</A>&nbsp;s)</PRE>
+<DL>
+<DD>Call the native function being represented by this object, returning
+ a struct by value.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>fp</CODE> - function pointer<DD><CODE>callFlags</CODE> - calling convention to be used<DD><CODE>args</CODE> - Arguments to pass to the native function
+<DT><B>Returns:</B><DD>the passed-in Structure</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invokeObject(long, int, java.lang.Object[])"><!-- --></A><H3>
+invokeObject</H3>
+<PRE>
+static <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <B>invokeObject</B>(long&nbsp;fp,
+                           int&nbsp;callFlags,
+                           <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>[]&nbsp;args)</PRE>
+<DL>
+<DD>Call the native function being represented by this object, returning
+ a Java <code>Object</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>fp</CODE> - function pointer<DD><CODE>callFlags</CODE> - calling convention to be used<DD><CODE>args</CODE> - Arguments to pass to the native function
+<DT><B>Returns:</B><DD>The returned Java <code>Object</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="open(java.lang.String)"><!-- --></A><H3>
+open</H3>
+<PRE>
+static long <B>open</B>(<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;name)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close(long)"><!-- --></A><H3>
+close</H3>
+<PRE>
+static void <B>close</B>(long&nbsp;handle)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="findSymbol(long, java.lang.String)"><!-- --></A><H3>
+findSymbol</H3>
+<PRE>
+static long <B>findSymbol</B>(long&nbsp;handle,
+                       <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;name)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="indexOf(long, byte)"><!-- --></A><H3>
+indexOf</H3>
+<PRE>
+static long <B>indexOf</B>(long&nbsp;addr,
+                    byte&nbsp;value)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(long, byte[], int, int)"><!-- --></A><H3>
+read</H3>
+<PRE>
+static void <B>read</B>(long&nbsp;addr,
+                 byte[]&nbsp;buf,
+                 int&nbsp;index,
+                 int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(long, short[], int, int)"><!-- --></A><H3>
+read</H3>
+<PRE>
+static void <B>read</B>(long&nbsp;addr,
+                 short[]&nbsp;buf,
+                 int&nbsp;index,
+                 int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(long, char[], int, int)"><!-- --></A><H3>
+read</H3>
+<PRE>
+static void <B>read</B>(long&nbsp;addr,
+                 char[]&nbsp;buf,
+                 int&nbsp;index,
+                 int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(long, int[], int, int)"><!-- --></A><H3>
+read</H3>
+<PRE>
+static void <B>read</B>(long&nbsp;addr,
+                 int[]&nbsp;buf,
+                 int&nbsp;index,
+                 int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(long, long[], int, int)"><!-- --></A><H3>
+read</H3>
+<PRE>
+static void <B>read</B>(long&nbsp;addr,
+                 long[]&nbsp;buf,
+                 int&nbsp;index,
+                 int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(long, float[], int, int)"><!-- --></A><H3>
+read</H3>
+<PRE>
+static void <B>read</B>(long&nbsp;addr,
+                 float[]&nbsp;buf,
+                 int&nbsp;index,
+                 int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(long, double[], int, int)"><!-- --></A><H3>
+read</H3>
+<PRE>
+static void <B>read</B>(long&nbsp;addr,
+                 double[]&nbsp;buf,
+                 int&nbsp;index,
+                 int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="write(long, byte[], int, int)"><!-- --></A><H3>
+write</H3>
+<PRE>
+static void <B>write</B>(long&nbsp;addr,
+                  byte[]&nbsp;buf,
+                  int&nbsp;index,
+                  int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="write(long, short[], int, int)"><!-- --></A><H3>
+write</H3>
+<PRE>
+static void <B>write</B>(long&nbsp;addr,
+                  short[]&nbsp;buf,
+                  int&nbsp;index,
+                  int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="write(long, char[], int, int)"><!-- --></A><H3>
+write</H3>
+<PRE>
+static void <B>write</B>(long&nbsp;addr,
+                  char[]&nbsp;buf,
+                  int&nbsp;index,
+                  int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="write(long, int[], int, int)"><!-- --></A><H3>
+write</H3>
+<PRE>
+static void <B>write</B>(long&nbsp;addr,
+                  int[]&nbsp;buf,
+                  int&nbsp;index,
+                  int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="write(long, long[], int, int)"><!-- --></A><H3>
+write</H3>
+<PRE>
+static void <B>write</B>(long&nbsp;addr,
+                  long[]&nbsp;buf,
+                  int&nbsp;index,
+                  int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="write(long, float[], int, int)"><!-- --></A><H3>
+write</H3>
+<PRE>
+static void <B>write</B>(long&nbsp;addr,
+                  float[]&nbsp;buf,
+                  int&nbsp;index,
+                  int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="write(long, double[], int, int)"><!-- --></A><H3>
+write</H3>
+<PRE>
+static void <B>write</B>(long&nbsp;addr,
+                  double[]&nbsp;buf,
+                  int&nbsp;index,
+                  int&nbsp;length)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getByte(long)"><!-- --></A><H3>
+getByte</H3>
+<PRE>
+static byte <B>getByte</B>(long&nbsp;addr)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getChar(long)"><!-- --></A><H3>
+getChar</H3>
+<PRE>
+static char <B>getChar</B>(long&nbsp;addr)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getShort(long)"><!-- --></A><H3>
+getShort</H3>
+<PRE>
+static short <B>getShort</B>(long&nbsp;addr)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInt(long)"><!-- --></A><H3>
+getInt</H3>
+<PRE>
+static int <B>getInt</B>(long&nbsp;addr)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLong(long)"><!-- --></A><H3>
+getLong</H3>
+<PRE>
+static long <B>getLong</B>(long&nbsp;addr)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFloat(long)"><!-- --></A><H3>
+getFloat</H3>
+<PRE>
+static float <B>getFloat</B>(long&nbsp;addr)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDouble(long)"><!-- --></A><H3>
+getDouble</H3>
+<PRE>
+static double <B>getDouble</B>(long&nbsp;addr)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPointer(long)"><!-- --></A><H3>
+getPointer</H3>
+<PRE>
+static <A HREF="../../../com/sun/jna/Pointer.html" title="class in com.sun.jna">Pointer</A> <B>getPointer</B>(long&nbsp;addr)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getString(long, boolean)"><!-- --></A><H3>
+getString</H3>
+<PRE>
+static <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>getString</B>(long&nbsp;addr,
+                        boolean&nbsp;wide)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMemory(long, long, byte)"><!-- --></A><H3>
+setMemory</H3>
+<PRE>
+static void <B>setMemory</B>(long&nbsp;addr,
+                      long&nbsp;length,
+                      byte&nbsp;value)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setByte(long, byte)"><!-- --></A><H3>
+setByte</H3>
+<PRE>
+static void <B>setByte</B>(long&nbsp;addr,
+                    byte&nbsp;value)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setShort(long, short)"><!-- --></A><H3>
+setShort</H3>
+<PRE>
+static void <B>setShort</B>(long&nbsp;addr,
+                     short&nbsp;value)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setChar(long, char)"><!-- --></A><H3>
+setChar</H3>
+<PRE>
+static void <B>setChar</B>(long&nbsp;addr,
+                    char&nbsp;value)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setInt(long, int)"><!-- --></A><H3>
+setInt</H3>
+<PRE>
+static void <B>setInt</B>(long&nbsp;addr,
+                   int&nbsp;value)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLong(long, long)"><!-- --></A><H3>
+setLong</H3>
+<PRE>
+static void <B>setLong</B>(long&nbsp;addr,
+                    long&nbsp;value)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFloat(long, float)"><!-- --></A><H3>
+setFloat</H3>
+<PRE>
+static void <B>setFloat</B>(long&nbsp;addr,
+                     float&nbsp;value)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDouble(long, double)"><!-- --></A><H3>
+setDouble</H3>
+<PRE>
+static void <B>setDouble</B>(long&nbsp;addr,
+                      double&nbsp;value)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPointer(long, long)"><!-- --></A><H3>
+setPointer</H3>
+<PRE>
+static void <B>setPointer</B>(long&nbsp;addr,
+                       long&nbsp;value)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setString(long, java.lang.String, boolean)"><!-- --></A><H3>
+setString</H3>
+<PRE>
+static void <B>setString</B>(long&nbsp;addr,
+                      <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;value,
+                      boolean&nbsp;wide)</PRE>
+<DL>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="malloc(long)"><!-- --></A><H3>
+malloc</H3>
+<PRE>
+public static long <B>malloc</B>(long&nbsp;size)</PRE>
+<DL>
+<DD>Call the real native malloc
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>size</CODE> - size of the memory to be allocated
+<DT><B>Returns:</B><DD>native address of the allocated memory block; zero if the
+ allocation failed.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="free(long)"><!-- --></A><H3>
+free</H3>
+<PRE>
+public static void <B>free</B>(long&nbsp;ptr)</PRE>
+<DL>
+<DD>Call the real native free
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ptr</CODE> - native address to be freed; a value of zero has no effect,
+ passing an already-freed pointer will cause pain.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDirectByteBuffer(long, long)"><!-- --></A><H3>
+getDirectByteBuffer</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</A> <B>getDirectByteBuffer</B>(long&nbsp;addr,
+                                             long&nbsp;length)</PRE>
+<DL>
+<DD>Get a direct ByteBuffer mapped to the memory pointed to by the pointer.
+ This method calls through to the JNA NewDirectByteBuffer method.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>addr</CODE> - byte offset from pointer to start the buffer<DD><CODE>length</CODE> - Length of ByteBuffer
+<DT><B>Returns:</B><DD>a direct ByteBuffer that accesses the memory being pointed to,</DL>
+</DD>
+</DL>
 <!-- ========= END OF CLASS DATA ========= -->
 <HR>
 
@@ -1544,14 +2754,14 @@ public static void <B>main</B>(<A HREF="http://java.sun.com/j2se/1.4.2/docs/api/
 </TABLE>
 </TD>
 <TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
-<b>JNA API</><font size=-1> 3.2.7</font></EM>
+<b>JNA API</><font size="-1"> 3.3.0</font></EM>
 </TD>
 </TR>
 
 <TR>
 <TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="../../../com/sun/jna/MethodResultContext.html" title="class in com.sun.jna"><B>PREV CLASS</B></A>&nbsp;
-&nbsp;<A HREF="../../../com/sun/jna/Native.DeleteNativeLibrary.html" title="class in com.sun.jna"><B>NEXT CLASS</B></A></FONT></TD>
+&nbsp;<A HREF="../../../com/sun/jna/Native.ffi_callback.html" title="interface in com.sun.jna"><B>NEXT CLASS</B></A></FONT></TD>
 <TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
   <A HREF="../../../index.html?com/sun/jna/Native.html" target="_top"><B>FRAMES</B></A>  &nbsp;
 &nbsp;<A HREF="Native.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
