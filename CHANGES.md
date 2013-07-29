@@ -9,10 +9,7 @@ Features
 --------
 * Add `com.sun.jna.platform.win32.Advapi32Util.registryCloseKey` - [@falldog] (https://github.com/falldog).
 * Enable platform tests to be run w/o building native bits - [@twall](https://github.com/twall)
-
-Bug Fixes
----------
-* Fix inconsistent behavior on `Structure.ByValue` fields within a `Structure` - [@twall](https://github.com/twall)
+* More win32 initialization file APIs - [@quipsy](https://github.com/quipsy).
 
 Release 4.0
 ===========
