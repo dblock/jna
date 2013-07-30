@@ -112,6 +112,7 @@ public class NativeTest extends TestCase {
         }
         void callVoidCallback(VoidCallback callback);
     }
+    
     public void testSynchronizedAccess() throws Exception {
         final boolean[] lockHeld = { false };
         final NativeLibrary nlib = NativeLibrary.getInstance("testlib", TestLib.class.getClassLoader());
@@ -180,6 +181,7 @@ public class NativeTest extends TestCase {
             Native.loadLibrary("testlib", TestInterfaceWithInstance.class, TEST_OPTS);
         abstract class TestStructure extends Structure {}
     }
+    
     public void testOptionsInferenceFromInstanceField() {
         Class[] classes = { TestInterfaceWithInstance.class, TestInterfaceWithInstance.TestStructure.class };
         String[] desc = { "interface", "structure from interface" };
@@ -211,6 +213,7 @@ public class NativeTest extends TestCase {
         }};
         abstract class TestStructure extends Structure {}
     }
+    
     public void testOptionsInferenceFromOptionsField() {
         Class[] classes = { TestInterfaceWithOptions.class, TestInterfaceWithOptions.TestStructure.class };
         for (int i=0;i < classes.length;i++) {
@@ -234,6 +237,7 @@ public class NativeTest extends TestCase {
         TypeMapper TYPE_MAPPER = TEST_MAPPER;
         abstract class TestStructure extends Structure { }
     }
+    
     public void testOptionsInferenceFromTypeMapperField() {
         assertEquals("Wrong type mapper found for interface which provides TYPE_MAPPER", 
                      TestInterfaceWithTypeMapper.TEST_MAPPER,
@@ -247,6 +251,7 @@ public class NativeTest extends TestCase {
         int STRUCTURE_ALIGNMENT = Structure.ALIGN_NONE;
         abstract class TestStructure extends Structure { }
     }
+    
     public void testOptionsInferenceFromAlignmentField() {
         assertEquals("Wrong alignment found for interface which provides STRUCTURE_ALIGNMENT", 
                      Structure.ALIGN_NONE,
@@ -260,6 +265,7 @@ public class NativeTest extends TestCase {
         String STRING_ENCODING = "test-encoding";
         abstract class TestStructure extends Structure { }
     }
+    
     public void testOptionsInferenceFromEncodingField() {
         assertEquals("Wrong encoding found for interface which provides STRING_ENCODING", 
                      TestInterfaceWithEncoding.STRING_ENCODING,
@@ -279,13 +285,12 @@ public class NativeTest extends TestCase {
         assertEquals("Wrong String generated", "abc", Native.toString(buf));
     }
     
-    @Test
     public final void shouldConvertSequenceToStrings() {
         // given
         final char[] buffer = "ABC\0DEF\0GHI\0\0".toCharArray();
 
         // when
-        final String[] strings = /* Native */N.toStrings(buffer);
+        final String[] strings = Native.toStrings(buffer);
 
         // then
         assertThat(strings, is(new String[] { "ABC", "DEF", "GHI" }));
@@ -425,7 +430,7 @@ public class NativeTest extends TestCase {
             for (int i=0;i < args.length;i++) {
                 System.out.println("Running tests on class " + args[i]);
                 try {
-                    junit.textui.TestRunner.run(Class.forName(args[i]));
+                    junit.textui.TestRunner.run((Class<? extends TestCase>) Class.forName(args[i]));
                 }
                 catch(Throwable e) {
                     e.printStackTrace();

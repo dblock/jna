@@ -195,7 +195,7 @@ public class Kernel32UtilTest extends TestCase {
     @Test
     public final void testGetPrivateProfileSection() throws IOException {
         // given
-        final File tmp = File.createTempFile("testGetPrivateProfileSection"(), "ini");
+        final File tmp = File.createTempFile("testGetPrivateProfileSection", "ini");
         tmp.deleteOnExit();
         try {
             final PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(tmp)));

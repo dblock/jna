@@ -30,7 +30,6 @@ final class RegexMatcher extends TypeSafeMatcher<String> {
         return string.matches(this.regex);
     }
 
-    @Override
     public final void describeTo(final Description description) {
         description.appendText("matches regex ").appendValue(this.regex);
     }

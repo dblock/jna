@@ -290,9 +290,6 @@
   <target name="-setup" depends="-dynamic-properties">
     <path id="compile-test.path">
       <path id="test.libs">
-        <fileset dir="lib">
-          <include name="junit.jar"/>
-        </fileset>
         <fileset dir="lib/test"/>
         <pathelement path="${classes}"/>
       </path>
@@ -486,7 +483,7 @@ osname=macosx;processor=x86;processor=x86-64;processor=ppc
     <subant target="jar" failonerror="true">
       <property name="file.reference.jna.build" location="${build}"/>
       <property name="file.reference.jna.jar" location="${build}/${jar}"/>
-      <property name="libs.junit.classpath" location="lib/junit.jar"/>
+      <property name="libs.junit.classpath" location="lib/test/junit.jar"/>
       <property name="javac.source" value="${platform.compatibility}"/>
       <property name="javac.target" value="${platform.compatibility}"/>
       <fileset dir="${contrib}" includes="platform/build.xml" />
@@ -501,7 +498,7 @@ osname=macosx;processor=x86;processor=x86-64;processor=ppc
     <subant target="jar" failonerror="true">
       <property name="file.reference.jna.build" location="${build}"/>
       <property name="file.reference.jna.jar" location="${build}/${jar}"/>
-      <property name="libs.junit.classpath" location="lib/junit.jar"/>
+      <property name="libs.junit.classpath" location="lib/test/junit.jar"/>
       <fileset dir="${contrib}" includes="*/build.xml" excludes="platform/build.xml"/>
     </subant>
   </target>
@@ -814,8 +811,8 @@ osname=macosx;processor=x86;processor=x86-64;processor=ppc
     <mkdir dir="${build}/jws"/>
     <copy todir="${build}/jws" file="${build}/${jar}"/>
     <copy todir="${build}/jws" file="${build}/${testjar}"/>
-    <copy todir="${build}/jws" file="lib/junit.jar"/>
-    <copy todir="${build}/jws" file="lib/clover.jar"/>
+    <copy todir="${build}/jws" file="lib/test/junit.jar"/>
+    <copy todir="${build}/jws" file="lib/test/clover.jar"/>
     <jar jarfile="${build}/jws/jnidispatch.jar">
       <fileset dir="${build.native}" includes="*jnidispatch.*"/>
     </jar>
@@ -924,7 +921,7 @@ osname=macosx;processor=x86;processor=x86-64;processor=ppc
     <subant target="test" failonerror="true" inheritall="true" inheritrefs="true">
       <property name="file.reference.jna.build" location="${build}"/>
       <property name="file.reference.jna.jar" location="${build}/${jar}"/>
-      <property name="libs.junit.classpath" location="lib/junit.jar"/>
+      <property name="libs.junit.classpath" location="lib/test/junit.jar"/>
       <property name="javac.source" value="${test.compatibility}"/>
       <property name="javac.target" value="${test.compatibility}"/>
       <fileset dir="${contrib}" includes="platform/build.xml"/>
@@ -1037,7 +1034,7 @@ osname=macosx;processor=x86;processor=x86-64;processor=ppc
     <!-- Full sources required to build and test everything -->
     <zip zipfile="${dist}/src-full.zip">
       <zipfileset src="${dist}/src.zip"/>
-      <zipfileset dir="lib" includes="junit.jar,clover.jar" prefix="lib"/>
+      <zipfileset dir="lib" includes="junit.jar,clover.jar" prefix="lib/test"/>
       <zipfileset dir="." includes=".classpath,.project"/>
       <zipfileset dir="${native}" includes="libffi,libffi/**/*" prefix="native"/>
     </zip>
